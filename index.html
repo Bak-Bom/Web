@@ -343,13 +343,54 @@
       console.error(err);
     }
   }
-
   document.getElementById("sendBtn").addEventListener("click", () => {
     const messageInput = document.getElementById("userMessage");
-    const message = messageInput.value;
+    const message = messageInput.value.trim();
+
+    if (!message) {
+        Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'warning',
+            title: 'กรุณาพิมพ์ข้อความก่อนส่งครับ',
+            showConfirmButton: false,
+            timer: 2500,
+            timerProgressBar: true,
+            background: '#ffffff',
+            color: '#000000'
+        });
+        return;
+    }
+
     messageInput.value = "";
-    sendToAI(message);
-  });
+
+    Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'success',
+        title: 'กรอกข้อความสำเร็จ ',
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: true,
+        background: '#ffffff',
+        color: '#000000'
+    });
+
+    setTimeout(() => {
+        Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'info',
+            title: 'Marijuana AI กำลังตอบ...',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            background: '#ffffff',
+            color: '#000000'
+        });
+        sendToAI(message);
+    }, 1600);
+});
 
   document.getElementById("userMessage").addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
