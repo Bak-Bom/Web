@@ -142,7 +142,12 @@
     style="margin-top:1rem; max-height:300px; overflow-y:auto; border:2px solid #00ffa3; border-radius:8px; padding:1rem; background:#002816dd;">
   </div>
 </section>
-  
+  <section id="visitors" class="container" style="text-align:center; margin-bottom:4rem;">
+  <h3 style="color:#00ffa3; font-size:2rem;">👁️ จำนวนผู้เข้าชมเว็บไซต์</h3>
+  <p id="visitorCount" style="font-size:1.4rem; color:#a7e6c1; font-weight:700; margin-top:1rem;">
+    กำลังโหลดจำนวนผู้เข้าชม...
+  </p>
+</section>
   <section id="contact" class="container">
     <h3>📬 ติดต่อผู้พัฒนา</h3>
     <p>มีคำถามหรือต้องการความช่วยเหลือ? ติดต่อเราได้เลย!</p>
@@ -397,6 +402,24 @@
       e.preventDefault();
       document.getElementById("sendBtn").click();
     }
+  async function updateVisitorCount() {
+    const countElement = document.getElementById("visitorCount");
+    try {
+      const res = await fetch("https://api.countapi.xyz/hit/marijuana-bot/visits");
+      const data = await res.json();
+
+      countElement.innerHTML = `
+        <span style="color:#00ffa3; font-size:2rem;">${data.value.toLocaleString()}</span>
+        <br>
+        <span style="color:#a7e6c1;">ครั้ง</span>
+      `;
+    } catch (err) {
+      countElement.textContent = "ไม่สามารถโหลดจำนวนผู้เข้าชมได้";
+    }
+  }
+
+  // เรียกตอนหน้าเว็บโหลด
+  updateVisitorCount();
   });
   </script>
 </body>
