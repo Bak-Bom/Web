@@ -183,41 +183,7 @@
       document.body.appendChild(leaf);
       setTimeout(() => { leaf.remove(); }, 10000);
     }
-    setInterval(createLeaf, 300);
-
-
-
-    window.addEventListener('load', () => {
-  Swal.fire({
-    title: '🌿 ยินดีต้อนรับสู่ <span style="color:#00ffa3;">Marijuana Bot</span> 💚',
-    html: `
-      <p style="font-size: 1.1rem; color:#b9ffe0;">
-        ขอบคุณที่เข้ามาเยี่ยมชมเว็บไซต์ของเรา<br>
-        ขอให้คุณมีวันที่ผ่อนคลายและสดชื่น 🍃
-      </p>
-    `,
-    imageUrl: 'https://img2.pic.in.th/pic/1000300351.png',
-    imageWidth: 100,
-    imageHeight: 100,
-    imageAlt: 'Marijuana Icon',
-    confirmButtonText: 'เข้าสู่เว็บไซต์ 🌱',
-    confirmButtonColor: '#00ffa3',
-    background: 'linear-gradient(145deg, #001f12, #003d24)',
-    color: '#d4f1e4',
-    backdrop: `
-      rgba(0, 0, 0, 0.85)
-      url("")
-      center top / cover
-      no-repeat
-    `,
-    showClass: {
-      popup: 'animate__animated animate__fadeInDown'
-    },
-    hideClass: {
-      popup: 'animate__animated animate__fadeOutUp'
-    }
-  });
-});
+    setInterval(createLeaf, 300);   
 
     function showTab(evt, tabId) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
@@ -440,7 +406,37 @@
     window.addEventListener("click", () => {
       typingData.forEach(item => smoothTyping(item.el, item.text));
     }, { once: true });
-    
+  window.addEventListener('load', () => {
+  Swal.fire({
+    title: '🌿 ยินดีต้อนรับสู่ <span style="color:#00ffa3;">Marijuana Bot</span> 💚',
+    html: `
+      <p style="font-size: 1.1rem; color:#b9ffe0;">
+        ขอบคุณที่เข้ามาเยี่ยมชมเว็บไซต์ของเรา<br>
+        ขอให้คุณมีวันที่ผ่อนคลายและสดชื่น 🍃
+      </p>
+    `,
+    imageUrl: 'https://img2.pic.in.th/pic/1000300351.png',
+    imageWidth: 100,
+    imageHeight: 100,
+    imageAlt: 'Marijuana Icon',
+    confirmButtonText: 'เข้าสู่เว็บไซต์ 🌱',
+    confirmButtonColor: '#00ffa3',
+    background: 'linear-gradient(145deg, #001f12, #003d24)',
+    color: '#d4f1e4',
+    backdrop: `
+      rgba(0, 0, 0, 0.85)
+      url("")
+      center top / cover
+      no-repeat
+    `,
+    showClass: {
+      popup: 'animate__animated animate__fadeInDown'
+    },
+    hideClass: {
+      popup: 'animate__animated animate__fadeOutUp'
+    }
+  });
+});
   </script>
 </body>
 </html>
