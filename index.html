@@ -83,7 +83,7 @@
   </header>
 
   <section class="hero" id="hero">
-    <h2>บอท Marijuana</h2>
+    <h2 id="typeTitle"></h2>
     <p>บันทึกข้อมูลห้องและหมวดของคุณเวลาโดนโจมตีและระบบอื่นๆ ด้วย Marijuana</p>
     <button class="btn-invite" onclick="showInfo()">📢 เกี่ยวกับบอท</button>
     <button class="btn-invite" onclick="openModal()">➕ เชิญบอทตอนนี้</button>
@@ -398,6 +398,19 @@
       document.getElementById("sendBtn").click();
     }
   });
+    const textTitle = "บอท Marijuana";
+    let tIndex = 0;
+    const titleEl = document.getElementById("typeTitle");
+    
+    function typingTitle() {
+      if (tIndex < textTitle.length) {
+        titleEl.innerHTML += textTitle[tIndex];
+        tIndex++;
+        setTimeout(typingTitle, 120);
+      }
+    }
+    
+    window.addEventListener("load", typingTitle);
   </script>
 </body>
 </html>
