@@ -68,6 +68,17 @@
       .tab-content { font-size:1rem; }
       .btn-invite { font-size:1rem; padding:0.85rem 2rem; }
     }
+    .cursor {
+      display: inline-block;
+      font-weight: bold;
+      animation: blink 2s infinite; 
+    }
+    
+    @keyframes blink {
+      0%   { opacity: 0; }
+      50%  { opacity: 1; }
+      100% { opacity: 0; }
+    }
 
   </style>
 </head>
@@ -84,7 +95,7 @@
 
   <section class="hero" id="hero">
     <h2 id="typeTitle"></h2>
-    <p>บันทึกข้อมูลห้องและหมวดของคุณเวลาโดนโจมตีและระบบอื่นๆ ด้วย Marijuana</p>
+    <p id="typeTitle2"></p>
     <button class="btn-invite" onclick="showInfo()">📢 เกี่ยวกับบอท</button>
     <button class="btn-invite" onclick="openModal()">➕ เชิญบอทตอนนี้</button>
   </section>
@@ -398,19 +409,38 @@
       document.getElementById("sendBtn").click();
     }
   });
-    const textTitle = "บอท Marijuana";
-    let tIndex = 0;
-    const titleEl = document.getElementById("typeTitle");
+    const typingData = [
+  {
+    el: document.getElementById("typeTitle"),
+    text: "บอท Marijuana"
+  },
+  {
+    el: document.getElementById("typeTitle2"),
+    text: "บันทึกข้อมูลห้องและหมวดของคุณเวลาโดนโจมตีและระบบอื่นๆ ด้วย Marijuana"
+  }
+];
+
+    const typeSound = new Audio("https://assets.mixkit.co/sfx/preview/mixkit-old-typewriter-key-press-1112.mp3");
+    typeSound.volume = 0.3;
     
-    function typingTitle() {
-      if (tIndex < textTitle.length) {
-        titleEl.innerHTML += textTitle[tIndex];
-        tIndex++;
-        setTimeout(typingTitle, 120);
+    function smoothTyping(el, text, i=0) {
+      if (i <= text.length) {
+        el.innerHTML = text.slice(0, i) + `<span class="cursor">|</span>`;
+    
+        const soundClone = typeSound.cloneNode();
+        soundClone.play().catch(e=>{});
+    
+        setTimeout(() => smoothTyping(el, text, i+1), 120);
+      } else {
+        const cursor = el.querySelector(".cursor");
+        if(cursor) cursor.style.animation = "blink 0.7s infinite";
       }
     }
     
-    window.addEventListener("load", typingTitle);
+    window.addEventListener("click", () => {
+      typingData.forEach(item => smoothTyping(item.el, item.text));
+    }, { once: true });
+    
   </script>
 </body>
 </html>
