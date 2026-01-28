@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Marijuana - Premium Discord Bot</title>
+  <title>Marijuana - Discord Bot</title>
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"/>
@@ -37,7 +37,6 @@
       position: relative;
     }
 
-    /* Animated Background */
     .bg-overlay {
       position: fixed;
       top: 0;
@@ -59,7 +58,6 @@
       z-index: 1;
     }
 
-    /* Header */
     header {
       position: fixed;
       top: 0;
@@ -155,7 +153,6 @@
       width: 80%;
     }
 
-    /* Hero Section */
     .hero {
       min-height: 100vh;
       display: flex;
@@ -359,7 +356,6 @@
       line-height: 1.6;
     }
 
-    /* Commands Section */
     .commands {
       padding: 6rem 0;
       background: rgba(0, 0, 0, 0.3);
@@ -464,7 +460,6 @@
       font-size: 0.95rem;
     }
 
-    /* AI Chat Section */
     .ai-chat {
       padding: 6rem 0;
       max-width: 900px;
@@ -557,7 +552,6 @@
       box-shadow: 0 0 20px rgba(0, 255, 163, 0.2);
     }
 
-    /* Footer */
     footer {
       background: rgba(0, 0, 0, 0.5);
       padding: 3rem 0 2rem;
@@ -593,7 +587,6 @@
       box-shadow: var(--shadow-glow);
     }
 
-    /* Falling Leaves */
     .leaf {
       position: fixed;
       width: 30px;
@@ -610,8 +603,6 @@
       }
     }
 
-    /* Responsive */
-    /* Scroll Animation Classes */
     .scroll-reveal {
       opacity: 0;
       transform: translateY(50px);
@@ -674,7 +665,71 @@
     .stagger-5 { transition-delay: 0.5s; }
     .stagger-6 { transition-delay: 0.6s; }
 
-    /* Particle Effect */
+    .typewriter {
+      overflow: hidden;
+      border-right: 3px solid var(--primary);
+      white-space: nowrap;
+      animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+      display: inline-block;
+    }
+
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes blink-caret {
+      from, to { border-color: transparent; }
+      50% { border-color: var(--primary); }
+    }
+
+    .typewriter-container {
+      display: inline-block;
+      position: relative;
+    }
+
+    .typing-text {
+      display: inline-block;
+      opacity: 0;
+    }
+
+    .typing-text.active {
+      opacity: 1;
+      animation: fadeIn 0.1s ease-in;
+    }
+
+    .typing-cursor {
+      display: inline-block;
+      width: 3px;
+      height: 1em;
+      background: var(--primary);
+      margin-left: 2px;
+      animation: blink 1s infinite;
+      vertical-align: middle;
+    }
+
+    @keyframes blink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+
+    .glow-text {
+      animation: textGlow 2s ease-in-out infinite;
+    }
+
+    @keyframes textGlow {
+      0%, 100% {
+        text-shadow: 0 0 10px rgba(0, 255, 163, 0.5),
+                     0 0 20px rgba(0, 255, 163, 0.3),
+                     0 0 30px rgba(0, 255, 163, 0.2);
+      }
+      50% {
+        text-shadow: 0 0 20px rgba(0, 255, 163, 0.8),
+                     0 0 30px rgba(0, 255, 163, 0.5),
+                     0 0 40px rgba(0, 255, 163, 0.3);
+      }
+    }
+
     .particle {
       position: fixed;
       width: 4px;
@@ -752,12 +807,10 @@
     <div class="hero-content">
       <div class="hero-badge">✨ Discord Bot</div>
       <h2>
-        ระบบจัดการ Discord<br>
-        <span class="highlight">ที่มีประสิทธิภาพ</span>
+        <span id="typewriter1" class="typewriter-container"></span><br>
+        <span id="typewriter2" class="typewriter-container highlight glow-text"></span>
       </h2>
-      <p>
-        ระบบยืนยันตัวตน | บันทึกและกู้คืนข้อมูล | AI ตอบคำถาม<br>
-        และฟีเจอร์มากมายที่จะทำให้เซิร์ฟเวอร์ของคุณโดดเด่น
+      <p id="typewriter3" class="typewriter-container">
       </p>
       <div class="hero-buttons">
         <button class="btn btn-primary" onclick="openInviteModal()">
@@ -997,13 +1050,74 @@
         </a>
       </div>
       <p style="color: var(--text-secondary);">
-        &copy; 2025 Marijuana Bot - สร้างด้วย ❤️ โดย Bak Bom
+        &copy; 2025 Marijuana Bot - สร้างด้วย โดย Bak Bom
       </p>
     </div>
   </footer>
 
   <script>
-    // Smooth scroll
+
+    function typeWriter(element, text, speed = 50, callback) {
+      let i = 0;
+      element.innerHTML = '';
+      
+      function type() {
+        if (i < text.length) {
+          const char = text.charAt(i);
+          const span = document.createElement('span');
+          span.className = 'typing-text';
+          span.textContent = char;
+          element.appendChild(span);
+          
+          const cursor = element.querySelector('.typing-cursor');
+          if (cursor) cursor.remove();
+          const newCursor = document.createElement('span');
+          newCursor.className = 'typing-cursor';
+          element.appendChild(newCursor);
+          
+          setTimeout(() => {
+            span.classList.add('active');
+          }, 10);
+          
+          i++;
+          setTimeout(type, speed);
+        } else {
+          setTimeout(() => {
+            const cursor = element.querySelector('.typing-cursor');
+            if (cursor) cursor.remove();
+            if (callback) callback();
+          }, 500);
+        }
+      }
+      
+      type();
+    }
+
+    window.addEventListener('load', () => {
+
+      typeWriter(
+        document.getElementById('typewriter1'),
+        'ระบบจัดการ Discord',
+        60,
+        () => {
+
+          typeWriter(
+            document.getElementById('typewriter2'),
+            'ที่มีประสิทธิภาพ',
+            60,
+            () => {
+
+              typeWriter(
+                document.getElementById('typewriter3'),
+                'ระบบยืนยันตัวตน | บันทึกและกู้คืนข้อมูล | AI ตอบคำถาม และฟีเจอร์มากมายที่จะทำให้เซิร์ฟเวอร์ของคุณโดดเด่น',
+                30
+              );
+            }
+          );
+        }
+      );
+    });
+
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         e.preventDefault();
@@ -1014,7 +1128,6 @@
       });
     });
 
-    // Header scroll effect
     window.addEventListener('scroll', () => {
       const header = document.getElementById('header');
       if (window.scrollY > 50) {
@@ -1024,7 +1137,6 @@
       }
     });
 
-    // Falling leaves
     const leafImageURL = 'https://img2.pic.in.th/pic/1000300351.png';
     function createLeaf() {
       const leaf = document.createElement('img');
@@ -1037,8 +1149,6 @@
       setTimeout(() => leaf.remove(), 15000);
     }
     setInterval(createLeaf, 600);
-
-    // Modal functions
     function showInfo() {
       Swal.fire({
         title: '🌿 เกี่ยวกับ Marijuana Bot',
@@ -1212,7 +1322,6 @@
       });
     }
 
-    // AI Chat functionality
     async function sendToAI(message) {
       if (!message.trim()) return;
       
@@ -1313,14 +1422,13 @@
       }
     });
 
-    // Welcome message
     window.addEventListener('load', () => {
       Swal.fire({
         title: '🌿 ยินดีต้อนรับสู่ Marijuana Bot',
         html: `
           <div style="padding: 1rem;">
             <p style="font-size: 1.2rem; margin-bottom: 1rem;">
-              บอท Discord ที่มีประสิทธิภาพ
+              บอท Discord ที่ประสิทธิภาพ
             </p>
             <p style="color: #b4e4ce;">
               พร้อมช่วยให้การจัดการเซิร์ฟเวอร์ของคุณง่ายขึ้น 🚀
@@ -1345,7 +1453,6 @@
       });
     });
 
-    // Scroll Reveal Animation
     function revealOnScroll() {
       const reveals = document.querySelectorAll('.scroll-reveal, .scroll-reveal-left, .scroll-reveal-right, .scroll-reveal-scale, .scroll-reveal-rotate');
       
@@ -1354,18 +1461,60 @@
         const elementVisible = 150;
         
         if (elementTop < window.innerHeight - elementVisible) {
-          element.classList.add('active');
+          if (!element.classList.contains('active')) {
+            element.classList.add('active');
+            
+            if (element.classList.contains('section-header')) {
+              const h3 = element.querySelector('h3');
+              if (h3 && !h3.dataset.typed) {
+                h3.dataset.typed = 'true';
+                const originalText = h3.textContent;
+                h3.textContent = '';
+                
+                setTimeout(() => {
+                  typeWriter(h3, originalText, 40);
+                }, 300);
+              }
+            }
+            
+            if (element.classList.contains('feature-card')) {
+              const h4 = element.querySelector('h4');
+              if (h4 && !h4.dataset.typed) {
+                h4.dataset.typed = 'true';
+                const originalText = h4.textContent;
+                const delay = parseInt(element.classList.toString().match(/stagger-(\d+)/)?.[1] || 0) * 100 + 500;
+                
+                setTimeout(() => {
+                  h4.textContent = '';
+                  typeWriter(h4, originalText, 50);
+                }, delay);
+              }
+            }
+
+            if (element.classList.contains('command-item')) {
+              const commandName = element.querySelector('.command-name');
+              if (commandName && !commandName.dataset.typed) {
+                commandName.dataset.typed = 'true';
+                const originalText = commandName.textContent;
+                const delay = parseInt(element.classList.toString().match(/stagger-(\d+)/)?.[1] || 0) * 100 + 300;
+                
+                setTimeout(() => {
+                  commandName.textContent = '';
+                  typeWriter(commandName, originalText, 30);
+                }, delay);
+              }
+            }
+          }
         }
       });
     }
 
-    // Call on scroll
     window.addEventListener('scroll', revealOnScroll);
     
-    // Call on load
-    window.addEventListener('load', revealOnScroll);
+    window.addEventListener('load', () => {
+      setTimeout(revealOnScroll, 100);
+    });
 
-    // Particle effect on scroll
     let lastScrollY = window.scrollY;
     let ticking = false;
 
@@ -1400,7 +1549,6 @@
       }
     });
 
-    // Re-trigger animations when switching tabs
     function switchTab(tabName) {
       document.querySelectorAll('.tab-content').forEach(tab => {
         tab.classList.remove('active');
@@ -1413,7 +1561,6 @@
       targetTab.classList.add('active');
       event.currentTarget.classList.add('active');
 
-      // Reset and re-trigger animations for command items in the new tab
       const commandItems = targetTab.querySelectorAll('.command-item');
       commandItems.forEach(item => {
         item.classList.remove('active');
