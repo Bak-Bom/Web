@@ -3,220 +3,1090 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Marijuana - บอท Discord</title>
+  <title>Marijuana - Premium Discord Bot</title>
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"/>
-
-  <link href="https://fonts.googleapis.com/css?family=Kanit&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
   <style>
-    *, *::before, *::after { box-sizing: border-box; }
-    body, html { margin:0; padding:0; height:100%; font-family:'Kanit', sans-serif; background: linear-gradient(135deg,#121212,#005f4b); color:#d4f1e4; scroll-behavior:smooth; }
-    a { color:#00ffa3; text-decoration:none; cursor:pointer; }
-    a:hover, a:focus { text-decoration:underline; outline:none; }
-
-    .container { max-width:1100px; margin:auto; padding:1rem 1.5rem; }
-
-    header { position:sticky; top:0; left:0; right:0; background:#023b2acc; padding:1rem 0; z-index:10000; box-shadow:0 2px 8px #00ff9a88; display:flex; align-items:center; justify-content:space-between; }
-    header h1 { font-size:2rem; color:#00ffa3; user-select:none; letter-spacing:3px; font-weight:900; text-shadow:0 0 10px #00ff9a; }
-    nav { display:flex; gap:2rem; }
-    nav a { font-weight:600; font-size:1rem; padding:0.2rem 0.5rem; border-radius:4px; transition: background-color 0.25s ease, color 0.25s ease; }
-    nav a:hover, nav a:focus { background-color:#00ffa3; color:#01130f; outline:none; }
-
-    .hero { text-align:center; padding:6rem 1rem 5rem; }
-    .hero h2 { font-size:3rem; font-weight:900; letter-spacing:3px; color:#00ffa3; margin-bottom:0.5rem; opacity:0; transform:translateY(30px); animation:fadeUp 1s forwards; animation-delay:0.2s; }
-    .hero p { font-size:1.3rem; max-width:700px; margin:0 auto 2rem; color:#a7e6c1; opacity:0; transform:translateY(30px); animation:fadeUp 1s forwards; animation-delay:0.6s; line-height:1.5; }
-    .btn-invite { background-color:#00ffa3; color:#01130f; font-weight:700; padding:1rem 3rem; border-radius:50px; border:none; cursor:pointer; box-shadow:0 0 25px #00ffa3; font-size:1.2rem; transition:background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease; opacity:0; transform:translateY(30px); animation:fadeUp 1s forwards; animation-delay:1s; }
-    .btn-invite:hover, .btn-invite:focus { background-color:#00cc7a; box-shadow:0 0 40px #00cc7a; transform:scale(1.05); outline:none; }
-
-    #commands { background:#01130fdd; padding:3rem 2rem; border-radius:16px; margin-bottom:5rem; box-shadow:0 0 20px #00ffa3aa; }
-    #commands h3 { font-size:2rem; color:#00ffa3; margin-bottom:1.5rem; text-align:center; letter-spacing:2px; user-select:none; }
-    .tabs { display:flex; justify-content:center; gap:1rem; margin-bottom:2rem; flex-wrap:wrap; }
-    .tab-btn { background-color:#002816cc; border:2px solid #00ffa3; color:#a7e6c1; font-weight:600; padding:0.7rem 1.5rem; border-radius:30px; cursor:pointer; transition:background-color 0.3s ease, color 0.3s ease; }
-    .tab-btn:hover, .tab-btn:focus { background-color:#00ffa3; color:#01130f; outline:none; }
-    .tab-btn.active { background-color:#00ffa3; color:#01130f; cursor:default; }
-    .tab-content { max-width:650px; margin:auto; color:#d4f1e4; font-size:1.1rem; line-height:1.6; display:none; user-select:text; }
-    .tab-content.active { display:block; }
-    .tab-content ul { list-style:none; padding-left:0; }
-    .tab-content ul li { background:#00492a; padding:0.75rem 1rem; margin-bottom:0.7rem; border-radius:8px; box-shadow:inset 0 0 8px #00ffa3aa; cursor:pointer; }
-    .tab-content strong { color:#00ffa3; }
-
-    #contact { max-width:600px; margin:auto; text-align:center; user-select:none; }
-    #contact h3 { font-size:2rem; color:#00ffa3; margin-bottom:1rem; }
-    #contact p { color:#a7e6c1; margin-bottom:1.5rem; }
-    #contact ul { list-style:none; padding-left:0; }
-    #contact ul li { padding:0.5rem 0; font-size:1.1rem; }
-    #contact ul li a { color:#00ffa3; }
-
-    footer { text-align:center; padding:1rem 1rem; background-color:#002816dd; user-select:none; color:#6fdec1; font-size:0.9rem; }
-    footer .socials { margin-bottom:0.8rem; display:flex; justify-content:center; gap:2rem; }
-    footer .socials a { color:#00ffa3; font-size:1.8rem; transition:transform 0.3s ease; }
-    footer .socials a:hover, footer .socials a:focus { transform:scale(1.4); outline:none; }
-
-    .weed-snowflake { position:fixed; top:-50px; z-index:9999; width:30px; height:30px; pointer-events:none; animation:fall linear infinite; }
-    @keyframes fall { to { transform:translateY(110vh) rotate(360deg); } }
-
-    @keyframes fadeUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
-
-    @media (max-width:768px) {
-      header h1 { font-size:1.6rem; }
-      .hero h2 { font-size:2rem; }
-      #commands { padding:2rem 1rem; }
-      .tab-content { font-size:1rem; }
-      .btn-invite { font-size:1rem; padding:0.85rem 2rem; }
+    :root {
+      --primary: #00ffa3;
+      --primary-dark: #00cc82;
+      --bg-dark: #0a0e0d;
+      --bg-card: #151d1a;
+      --bg-card-hover: #1a2421;
+      --text-primary: #ffffff;
+      --text-secondary: #b4e4ce;
+      --shadow-glow: 0 0 30px rgba(0, 255, 163, 0.3);
+      --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
     }
-    .cursor {
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Kanit', sans-serif;
+      background: linear-gradient(135deg, #0a0e0d 0%, #003d2a 50%, #0a0e0d 100%);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Animated Background */
+    .bg-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 50%, rgba(0, 255, 163, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(0, 255, 163, 0.05) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(10, 14, 13, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(0, 255, 163, 0.1);
+      padding: 1rem 0;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    header.scrolled {
+      box-shadow: var(--shadow-glow);
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo-icon {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: var(--shadow-glow);
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .logo h1 {
+      font-size: 1.8rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--primary), #fff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    nav {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    nav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: width 0.3s ease;
+    }
+
+    nav a:hover {
+      color: var(--primary);
+    }
+
+    nav a:hover::after {
+      width: 80%;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8rem 2rem 4rem;
+      position: relative;
+    }
+
+    .hero-content {
+      max-width: 800px;
+    }
+
+    .hero-badge {
       display: inline-block;
-      font-weight: bold;
-      animation: blink 2s infinite; 
-    }
-    
-    @keyframes blink {
-      0%   { opacity: 0; }
-      50%  { opacity: 1; }
-      100% { opacity: 0; }
+      background: rgba(0, 255, 163, 0.1);
+      border: 1px solid rgba(0, 255, 163, 0.3);
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      color: var(--primary);
+      font-weight: 600;
+      margin-bottom: 2rem;
+      animation: fadeInDown 1s ease;
     }
 
+    .hero h2 {
+      font-size: 4rem;
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+      animation: fadeInUp 1s ease 0.2s both;
+    }
+
+    .hero h2 .highlight {
+      background: linear-gradient(135deg, var(--primary), #00ffff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: inline-block;
+      animation: glow 2s ease-in-out infinite;
+    }
+
+    @keyframes glow {
+      0%, 100% { filter: drop-shadow(0 0 20px rgba(0, 255, 163, 0.5)); }
+      50% { filter: drop-shadow(0 0 40px rgba(0, 255, 163, 0.8)); }
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      color: var(--text-secondary);
+      margin-bottom: 3rem;
+      line-height: 1.8;
+      animation: fadeInUp 1s ease 0.4s both;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeInUp 1s ease 0.6s both;
+    }
+
+    .btn {
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: var(--bg-dark);
+      box-shadow: 0 8px 24px rgba(0, 255, 163, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0, 255, 163, 0.5);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(0, 255, 163, 0.1);
+      transform: translateY(-3px);
+    }
+
+    /* Features Section */
+    .features {
+      padding: 6rem 0;
+      position: relative;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-badge {
+      display: inline-block;
+      background: rgba(0, 255, 163, 0.1);
+      border: 1px solid rgba(0, 255, 163, 0.3);
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      color: var(--primary);
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .section-header h3 {
+      font-size: 3rem;
+      font-weight: 900;
+      margin-bottom: 1rem;
+    }
+
+    .section-header p {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(0, 255, 163, 0.1);
+      border-radius: 20px;
+      padding: 2.5rem;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), #00ffff);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-card);
+      border-color: rgba(0, 255, 163, 0.3);
+    }
+
+    .feature-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .feature-icon {
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(135deg, rgba(0, 255, 163, 0.2), rgba(0, 255, 163, 0.05));
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover .feature-icon {
+      transform: rotateY(360deg);
+      background: linear-gradient(135deg, var(--primary), rgba(0, 255, 163, 0.3));
+    }
+
+    .feature-card h4 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .feature-card p {
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* Commands Section */
+    .commands {
+      padding: 6rem 0;
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    .tabs {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      background: var(--bg-card);
+      border: 2px solid rgba(0, 255, 163, 0.2);
+      color: var(--text-secondary);
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+    }
+
+    .tab-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border-color: var(--primary);
+      color: var(--bg-dark);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .tab-content {
+      display: none;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .command-list {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .command-item {
+      background: var(--bg-card);
+      border: 1px solid rgba(0, 255, 163, 0.1);
+      border-radius: 16px;
+      padding: 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .command-item:hover {
+      border-color: var(--primary);
+      transform: translateX(10px);
+      background: var(--bg-card-hover);
+    }
+
+    .command-icon {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, rgba(0, 255, 163, 0.2), rgba(0, 255, 163, 0.05));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .command-info {
+      flex: 1;
+    }
+
+    .command-name {
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .command-desc {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    /* AI Chat Section */
+    .ai-chat {
+      padding: 6rem 0;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .chat-container {
+      background: var(--bg-card);
+      border: 1px solid rgba(0, 255, 163, 0.2);
+      border-radius: 24px;
+      padding: 2rem;
+      box-shadow: var(--shadow-card);
+    }
+
+    .chat-area {
+      max-height: 400px;
+      overflow-y: auto;
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 16px;
+      min-height: 200px;
+    }
+
+    .chat-area::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .chat-area::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+    }
+
+    .chat-area::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 10px;
+    }
+
+    .message {
+      margin-bottom: 1rem;
+      padding: 1rem;
+      border-radius: 12px;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .message.user {
+      background: rgba(0, 255, 163, 0.1);
+      border-left: 3px solid var(--primary);
+    }
+
+    .message.bot {
+      background: rgba(255, 255, 255, 0.05);
+      border-left: 3px solid #888;
+    }
+
+    .message-label {
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .chat-input-group {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .chat-input {
+      flex: 1;
+      background: rgba(0, 0, 0, 0.3);
+      border: 2px solid rgba(0, 255, 163, 0.2);
+      border-radius: 16px;
+      padding: 1rem 1.5rem;
+      color: var(--text-primary);
+      font-size: 1rem;
+      resize: none;
+      font-family: 'Kanit', sans-serif;
+      transition: all 0.3s ease;
+    }
+
+    .chat-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 20px rgba(0, 255, 163, 0.2);
+    }
+
+    /* Footer */
+    footer {
+      background: rgba(0, 0, 0, 0.5);
+      padding: 3rem 0 2rem;
+      text-align: center;
+      border-top: 1px solid rgba(0, 255, 163, 0.1);
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .social-link {
+      width: 60px;
+      height: 60px;
+      background: var(--bg-card);
+      border: 2px solid rgba(0, 255, 163, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      font-size: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .social-link:hover {
+      background: var(--primary);
+      color: var(--bg-dark);
+      transform: translateY(-5px) rotate(360deg);
+      box-shadow: var(--shadow-glow);
+    }
+
+    /* Falling Leaves */
+    .leaf {
+      position: fixed;
+      width: 30px;
+      height: 30px;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.7;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(360deg);
+      }
+    }
+
+    /* Responsive */
+    /* Scroll Animation Classes */
+    .scroll-reveal {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .scroll-reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .scroll-reveal-left {
+      opacity: 0;
+      transform: translateX(-80px);
+      transition: all 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .scroll-reveal-left.active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .scroll-reveal-right {
+      opacity: 0;
+      transform: translateX(80px);
+      transition: all 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .scroll-reveal-right.active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .scroll-reveal-scale {
+      opacity: 0;
+      transform: scale(0.8);
+      transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .scroll-reveal-scale.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .scroll-reveal-rotate {
+      opacity: 0;
+      transform: rotate(-10deg) scale(0.9);
+      transition: all 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .scroll-reveal-rotate.active {
+      opacity: 1;
+      transform: rotate(0deg) scale(1);
+    }
+
+    .stagger-1 { transition-delay: 0.1s; }
+    .stagger-2 { transition-delay: 0.2s; }
+    .stagger-3 { transition-delay: 0.3s; }
+    .stagger-4 { transition-delay: 0.4s; }
+    .stagger-5 { transition-delay: 0.5s; }
+    .stagger-6 { transition-delay: 0.6s; }
+
+    /* Particle Effect */
+    .particle {
+      position: fixed;
+      width: 4px;
+      height: 4px;
+      background: var(--primary);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      opacity: 0;
+      animation: particleFloat 2s ease-out forwards;
+    }
+
+    @keyframes particleFloat {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-100px) scale(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero h2 {
+        font-size: 2.5rem;
+      }
+
+      .hero p {
+        font-size: 1.1rem;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+      }
+
+      .section-header h3 {
+        font-size: 2rem;
+      }
+
+      nav {
+        gap: 1rem;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .chat-input-group {
+        flex-direction: column;
+      }
+    }
   </style>
 </head>
 
 <body>
-  <header class="container">
-    <h1>Marijuana</h1>
-    <nav>
-      <a href="#hero">หน้าแรก</a>
-      <a href="#commands">คำสั่ง</a>
-      <a href="#contact">ติดต่อ</a>
-    </nav>
+  <div class="bg-overlay"></div>
+
+  <header id="header">
+    <div class="header-content">
+      <div class="logo">
+        <div class="logo-icon">🌿</div>
+        <h1>Marijuana</h1>
+      </div>
+      <nav>
+        <a href="#hero">หน้าแรก</a>
+        <a href="#features">ฟีเจอร์</a>
+        <a href="#commands">คำสั่ง</a>
+        <a href="#ai-chat">AI Chat</a>
+      </nav>
+    </div>
   </header>
 
   <section class="hero" id="hero">
-    <h2 id="typeTitle"></h2>
-    <p id="typeTitle2"></p>
-    <button class="btn-invite" onclick="showInfo()">📢 เกี่ยวกับบอท</button>
-    <button class="btn-invite" onclick="openModal()">➕ เชิญบอทตอนนี้</button>
-  </section>
-
-  <section id="commands" class="container">
-    <h3> 💻 คำสั่งหลัก</h3>
-    <div class="tabs">
-      <button class="tab-btn active" onclick="showTab(event,'general')">ทั่วไป</button>
-      <button class="tab-btn" onclick="showTab(event,'moderation')">ยืนยันตัวตน</button>
-      <button class="tab-btn" onclick="showTab(event,'fun')">บันทึกข้อมูลเซิร์ฟเวอร์</button>
-    </div>
-
-    <div id="general" class="tab-content active">
-      <ul>
-        <li onclick="showCommandInfo('/ban')"><strong>/ban</strong> — แบนสมาชิก</li>
-        <li onclick="showCommandInfo('/kick')"><strong>/kick</strong> — เตะสมาชิก</li>
-        <li onclick="showCommandInfo('/clear')"><strong>/clear</strong> — ลบข้อความ (สูงสุด100)</li>
-        <li onclick="showCommandInfo('/help')"><strong>/help</strong> — ดูคำสั่งบอททั้งหมด</li>
-        <li onclick="showCommandInfo('/addrole')"><strong>/addrole</strong> — ให้ยศสมาชิก</li>
-        <li onclick="showCommandInfo('/setupdatechannel')"><strong>/setupdatechannel</strong> — ตั้งค่าห้องแจ้งเตือนบอทอัพเดท</li>
-        <li onclick="showCommandInfo('/reportbug')"><strong>/reportbug</strong> — แจ้งเวลาบอทมีปัญหาหรือบัค</li>
-        <li onclick="showCommandInfo('/suggest')"><strong>/suggest</strong> — เสนอระบบบอทหรือแนะนำต่างๆ</li>
-        <li onclick="showCommandInfo('/announceall')"><strong>/announceall</strong> — แจ้งเวลาอัพเดทระบบบอท (เจ้าของบอท)</li>
-        <li onclick="showCommandInfo('/guilds')"><strong>/guilds</strong> — ดูรายชื่อเซิร์ฟเวอร์และไอดีเซิร์ฟเวอร์ (เจ้าของบอท)</li>
-        <li onclick="showCommandInfo('/leaveguild')"><strong>/leaveguild</strong> — ให้บอทออกจากเซิร์ฟเวอร์ (เจ้าของบอท)</li>
-      </ul>
-    </div>
-
-    <div id="moderation" class="tab-content">
-      <ul>
-        <li onclick="showCommandInfo('/setverifylog')"><strong>/setverifylog</strong> — ตั้งค่าห้องแจ้งเตือนยืนยันตัวตนสำเร็จ</li>
-        <li onclick="showCommandInfo('/setverifyrole')"><strong>/setverifyrole</strong> — ตั้งค่ายศที่จะให้ตอนยืนยันสำเร็จ</li>
-        <li onclick="showCommandInfo('/verify')"><strong>/verify</strong> — สร้างปุ่มยืนยันตัวตน</li>
-      </ul>
-    </div>
- 
-    <div id="fun" class="tab-content">
-      <ul>
-        <li onclick="showCommandInfo('/backup')"><strong>/backup</strong> — บันทึกข้อมูลสำรองห้องกับหมวดการตั้งค่า</li>
-        <li onclick="showCommandInfo('/restore')"><strong>/restore</strong> — กู้ข้อมูลห้องกับหมวดตอนเวลาโดนโจมตี</li>
-      </ul>
+    <div class="hero-content">
+      <div class="hero-badge">✨ Discord Bot</div>
+      <h2>
+        ระบบจัดการ Discord<br>
+        <span class="highlight">ที่มีประสิทธิภาพ</span>
+      </h2>
+      <p>
+        ระบบยืนยันตัวตน | บันทึกและกู้คืนข้อมูล | AI ตอบคำถาม<br>
+        และฟีเจอร์มากมายที่จะทำให้เซิร์ฟเวอร์ของคุณโดดเด่น
+      </p>
+      <div class="hero-buttons">
+        <button class="btn btn-primary" onclick="openInviteModal()">
+          <i class="fas fa-plus-circle"></i> เชิญบอทเข้าเซิร์ฟเวอร์
+        </button>
+        <button class="btn btn-secondary" onclick="showInfo()">
+          <i class="fas fa-info-circle"></i> เรียนรู้เพิ่มเติม
+        </button>
+      </div>
     </div>
   </section>
-  <section id="ai-chat" class="container" style="margin-bottom:5rem;">
-  <h3>🤖 คุยกับ Marijuana AI</h3>
-  <div style="display:flex; flex-direction:column; gap:0.5rem;">
-    <textarea id="userMessage" placeholder="พิมพ์ข้อความของคุณ..." 
-      style="width:100%; padding:0.75rem; border-radius:8px; border:2px solid #00ffa3; background:#01130fdd; color:#d4f1e4; resize:none;"></textarea>
-    <button id="sendBtn" 
-      style="background:#00ffa3; color:#01130f; padding:0.75rem 1.5rem; border:none; border-radius:8px; cursor:pointer; font-weight:700;">
-      ส่งข้อความ
-    </button>
-  </div>
-  <div id="chatArea" 
-    style="margin-top:1rem; max-height:300px; overflow-y:auto; border:2px solid #00ffa3; border-radius:8px; padding:1rem; background:#002816dd;">
-  </div>
-</section>
-  
-  <section id="contact" class="container">
-    <h3>📬 ติดต่อผู้พัฒนา</h3>
-    <p>มีคำถามหรือต้องการความช่วยเหลือ? ติดต่อเราได้เลย!</p>
-    <ul>
-      <li><a href="#" onclick="showContactInfo()">เข้าร่วม Discord</a></li>
-    </ul>
+
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-header scroll-reveal-scale">
+        <div class="section-badge">💎 ฟีเจอร์เด่น</div>
+        <h3>ทำไมต้องเลือก Marijuana?</h3>
+        <p>ฟีเจอร์ครบครัน ใช้งานง่าย ประสิทธิภาพสูง</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card scroll-reveal stagger-1">
+          <div class="feature-icon">🛡️</div>
+          <h4>ระบบยืนยันตัวตน</h4>
+          <p>ป้องกันบอทและสแปมด้วยระบบยืนยันตัวตนที่ทันสมัย พร้อมปรับแต่งได้ตามต้องการ</p>
+        </div>
+
+        <div class="feature-card scroll-reveal stagger-2">
+          <div class="feature-icon">💾</div>
+          <h4>สำรองข้อมูล</h4>
+          <p>บันทึกและกู้คืนข้อมูลห้องและหมวดหมู่ได้อย่างรวดเร็ว ปลอดภัยจากการโจมตี</p>
+        </div>
+
+        <div class="feature-card scroll-reveal stagger-3">
+          <div class="feature-icon">⚡</div>
+          <h4>จัดการสมาชิก</h4>
+          <p>ระบบแบน เตะ และจัดการสมาชิกที่มีประสิทธิภาพ ใช้งานง่ายด้วยคำสั่งเดียว</p>
+        </div>
+
+        <div class="feature-card scroll-reveal stagger-4">
+          <div class="feature-icon">🤖</div>
+          <h4>AI ตอบคำถาม</h4>
+          <p>AI ฉลาดพร้อมตอบคำถามและช่วยเหลือสมาชิกในเซิร์ฟเวอร์ของคุณ</p>
+        </div>
+
+        <div class="feature-card scroll-reveal stagger-5">
+          <div class="feature-icon">🎨</div>
+          <h4>ปรับแต่งได้</h4>
+          <p>ปรับแต่งระบบต่างๆ ให้เข้ากับสไตล์เซิร์ฟเวอร์ของคุณได้อย่างอิสระ</p>
+        </div>
+
+        <div class="feature-card scroll-reveal stagger-6">
+          <div class="feature-icon">🚀</div>
+          <h4>อัพเดทต่อเนื่อง</h4>
+          <p>พัฒนาและเพิ่มฟีเจอร์ใหม่ๆ อย่างสม่ำเสมอ รับฟังความคิดเห็นจากผู้ใช้</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="commands" id="commands">
+    <div class="container">
+      <div class="section-header scroll-reveal-scale">
+        <div class="section-badge">💻 คำสั่งหลัก</div>
+        <h3>คำสั่งที่ใช้งานได้</h3>
+        <p>รวมคำสั่งทั้งหมดที่จะทำให้การจัดการเซิร์ฟเวอร์ง่ายขึ้น</p>
+      </div>
+
+      <div class="tabs scroll-reveal">
+        <button class="tab-btn active" onclick="switchTab('general')">
+          <i class="fas fa-home"></i> ทั่วไป
+        </button>
+        <button class="tab-btn" onclick="switchTab('verify')">
+          <i class="fas fa-check-circle"></i> ยืนยันตัวตน
+        </button>
+        <button class="tab-btn" onclick="switchTab('backup')">
+          <i class="fas fa-database"></i> สำรองข้อมูล
+        </button>
+      </div>
+
+      <div id="general" class="tab-content active">
+        <div class="command-list">
+          <div class="command-item scroll-reveal-left stagger-1" onclick="showCommandInfo('/ban')">
+            <div class="command-icon">🔨</div>
+            <div class="command-info">
+              <div class="command-name">/ban</div>
+              <div class="command-desc">แบนสมาชิกออกจากเซิร์ฟเวอร์</div>
+            </div>
+          </div>
+
+          <div class="command-item scroll-reveal-left stagger-2" onclick="showCommandInfo('/kick')">
+            <div class="command-icon">👢</div>
+            <div class="command-info">
+              <div class="command-name">/kick</div>
+              <div class="command-desc">เตะสมาชิกออกจากเซิร์ฟเวอร์</div>
+            </div>
+          </div>
+
+          <div class="command-item scroll-reveal-left stagger-3" onclick="showCommandInfo('/clear')">
+            <div class="command-icon">🧹</div>
+            <div class="command-info">
+              <div class="command-name">/clear</div>
+              <div class="command-desc">ลบข้อความในห้อง (สูงสุด 100 ข้อความ)</div>
+            </div>
+          </div>
+
+          <div class="command-item scroll-reveal-left stagger-4" onclick="showCommandInfo('/help')">
+            <div class="command-icon">❓</div>
+            <div class="command-info">
+              <div class="command-name">/help</div>
+              <div class="command-desc">ดูคำสั่งทั้งหมดของบอท</div>
+            </div>
+          </div>
+
+          <div class="command-item scroll-reveal-left stagger-5" onclick="showCommandInfo('/addrole')">
+            <div class="command-icon">🎭</div>
+            <div class="command-info">
+              <div class="command-name">/addrole</div>
+              <div class="command-desc">เพิ่มยศให้กับสมาชิก</div>
+            </div>
+          </div>
+
+          <div class="command-item scroll-reveal-left stagger-6" onclick="showCommandInfo('/setupdatechannel')">
+            <div class="command-icon">🔔</div>
+            <div class="command-info">
+              <div class="command-name">/setupdatechannel</div>
+              <div class="command-desc">ตั้งค่าห้องแจ้งเตือนบอทอัพเดท</div>
+            </div>
+          </div>
+
+          <div class="command-item scroll-reveal-left stagger-1" onclick="showCommandInfo('/reportbug')">
+            <div class="command-icon">🐛</div>
+            <div class="command-info">
+              <div class="command-name">/reportbug</div>
+              <div class="command-desc">แจ้งปัญหาหรือบัคของบอท</div>
+            </div>
+          </div>
+
+          <div class="command-item scroll-reveal-left stagger-2" onclick="showCommandInfo('/suggest')">
+            <div class="command-icon">💡</div>
+            <div class="command-info">
+              <div class="command-name">/suggest</div>
+              <div class="command-desc">เสนอไอเดียฟีเจอร์ใหม่</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="verify" class="tab-content">
+        <div class="command-list">
+          <div class="command-item scroll-reveal-right stagger-1" onclick="showCommandInfo('/setverifylog')">
+            <div class="command-icon">📋</div>
+            <div class="command-info">
+              <div class="command-name">/setverifylog</div>
+              <div class="command-desc">ตั้งค่าห้องแจ้งเตือนการยืนยันตัวตน</div>
+            </div>
+          </div>
+
+          <div class="command-item scroll-reveal-right stagger-2" onclick="showCommandInfo('/setverifyrole')">
+            <div class="command-icon">👤</div>
+            <div class="command-info">
+              <div class="command-name">/setverifyrole</div>
+              <div class="command-desc">กำหนดยศที่จะได้หลังยืนยันตัวตน</div>
+            </div>
+          </div>
+
+          <div class="command-item scroll-reveal-right stagger-3" onclick="showCommandInfo('/verify')">
+            <div class="command-icon">✅</div>
+            <div class="command-info">
+              <div class="command-name">/verify</div>
+              <div class="command-desc">สร้างปุ่มยืนยันตัวตน</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="backup" class="tab-content">
+        <div class="command-list">
+          <div class="command-item scroll-reveal-rotate stagger-1" onclick="showCommandInfo('/backup')">
+            <div class="command-icon">💾</div>
+            <div class="command-info">
+              <div class="command-name">/backup</div>
+              <div class="command-desc">สำรองข้อมูลห้องและหมวดหมู่</div>
+            </div>
+          </div>
+
+          <div class="command-item scroll-reveal-rotate stagger-2" onclick="showCommandInfo('/restore')">
+            <div class="command-icon">🔄</div>
+            <div class="command-info">
+              <div class="command-name">/restore</div>
+              <div class="command-desc">กู้คืนข้อมูลจากไฟล์สำรอง</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ai-chat" id="ai-chat">
+    <div class="container">
+      <div class="section-header scroll-reveal-scale">
+        <div class="section-badge">🤖 AI Assistant</div>
+        <h3>คุยกับ Marijuana AI</h3>
+        <p>ทดลองคุยกับ AI ของเราได้เลย</p>
+      </div>
+
+      <div class="chat-container scroll-reveal">
+        <div class="chat-area" id="chatArea">
+          <div class="message bot">
+            <div class="message-label">
+              <i class="fas fa-robot"></i> Marijuana AI
+            </div>
+            <div>สวัสดีครับ! ผมคือ Marijuana AI พร้อมช่วยเหลือคุณแล้วครับ 🌿</div>
+          </div>
+        </div>
+
+        <div class="chat-input-group">
+          <textarea 
+            id="userMessage" 
+            class="chat-input" 
+            placeholder="พิมพ์ข้อความของคุณที่นี่..."
+            rows="3"
+          ></textarea>
+          <button class="btn btn-primary" id="sendBtn">
+            <i class="fas fa-paper-plane"></i> ส่ง
+          </button>
+        </div>
+      </div>
+    </div>
   </section>
 
   <footer>
-    <div class="socials">
-      <a href="#" title="Discord"><i class="fab fa-discord"></i></a>
+    <div class="container">
+      <div class="social-links">
+        <a href="#" class="social-link" onclick="showContactInfo()" title="Discord">
+          <i class="fab fa-discord"></i>
+        </a>
+      </div>
+      <p style="color: var(--text-secondary);">
+        &copy; 2025 Marijuana Bot - สร้างด้วย ❤️ โดย Bak Bom
+      </p>
     </div>
-    <p>&copy; 2025 Marijuana — 🛠️ สร้างโดย Bak Bom 💻</p>
   </footer>
 
   <script>
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
 
+    // Header scroll effect
+    window.addEventListener('scroll', () => {
+      const header = document.getElementById('header');
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // Falling leaves
     const leafImageURL = 'https://img2.pic.in.th/pic/1000300351.png';
     function createLeaf() {
       const leaf = document.createElement('img');
       leaf.src = leafImageURL;
-      leaf.className = 'weed-snowflake';
+      leaf.className = 'leaf';
       leaf.style.left = `${Math.random() * 100}vw`;
-      leaf.style.animationDuration = `${5 + Math.random() * 5}s`;
-      leaf.style.opacity = Math.random().toFixed(2);
-      leaf.style.transform = `rotate(${Math.random() * 360}deg)`;
+      leaf.style.animationDuration = `${8 + Math.random() * 7}s`;
+      leaf.style.opacity = Math.random() * 0.5 + 0.3;
       document.body.appendChild(leaf);
-      setTimeout(() => { leaf.remove(); }, 10000);
+      setTimeout(() => leaf.remove(), 15000);
     }
-    setInterval(createLeaf, 300);   
+    setInterval(createLeaf, 600);
 
-    function showTab(evt, tabId) {
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-      document.getElementById(tabId).classList.add('active');
-      evt.currentTarget.classList.add('active');
-    }
-
+    // Modal functions
     function showInfo() {
       Swal.fire({
-        title: 'เกี่ยวกับ Marijuana Bot',
-        html: `<p>บอทนี้ช่วยจัดการและดูแล Discord Server ของคุณ 🌿</p>
-               <p>ระบบหลัก: ยืนยันตัวตน, จัดการสมาชิก, สำรองและกู้คืนข้อมูล</p>
-               <p style="margin-top:10px; font-size:14px; opacity:0.7;">สร้างโดยทีม Marijuana</p>`,
+        title: '🌿 เกี่ยวกับ Marijuana Bot',
+        html: `
+          <div style="text-align: left; padding: 1rem;">
+            <p style="margin-bottom: 1rem; font-size: 1.1rem;">
+              <strong>Marijuana Bot</strong> คือบอท Discord ที่ออกแบบมาเพื่อช่วยจัดการและปกป้องเซิร์ฟเวอร์ของคุณ
+            </p>
+            <h4 style="color: #00ffa3; margin-top: 1.5rem;">ฟีเจอร์หลัก:</h4>
+            <ul style="list-style: none; padding: 0;">
+              <li style="margin: 0.5rem 0;">✅ ระบบยืนยันตัวตนที่ทันสมัย</li>
+              <li style="margin: 0.5rem 0;">💾 สำรองและกู้คืนข้อมูล</li>
+              <li style="margin: 0.5rem 0;">🛡️ ระบบจัดการสมาชิก</li>
+              <li style="margin: 0.5rem 0;">🤖 AI ตอบคำถามอัตโนมัติ</li>
+              <li style="margin: 0.5rem 0;">🚀 อัพเดทฟีเจอร์ใหม่ตลอด</li>
+            </ul>
+          </div>
+        `,
         icon: 'info',
         confirmButtonText: 'รับทราบ',
         confirmButtonColor: '#00ffa3',
-        background: '#001a10',
-        color: '#d4f1e4'
+        background: '#0a0e0d',
+        color: '#ffffff',
+        customClass: {
+          popup: 'animated-popup'
+        }
       });
     }
 
-    function openModal() {
+    function openInviteModal() {
       Swal.fire({
-        title: 'แน่ใจหรือไม่?',
-        text: 'คุณต้องการเชิญบอท Marijuana เข้าดิสคอร์ดของคุณหรือไม่?',
+        title: '🎉 เชิญบอทเข้าเซิร์ฟเวอร์',
+        html: `
+          <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">
+            พร้อมที่จะปรับปรุงเซิร์ฟเวอร์ของคุณแล้วหรือยัง?
+          </p>
+          <p style="color: #b4e4ce;">
+            คลิกปุ่มด้านล่างเพื่อเชิญ Marijuana Bot เข้าสู่เซิร์ฟเวอร์ของคุณ
+          </p>
+        `,
         icon: 'question',
         showCancelButton: true,
-        confirmButtonText: 'เชิญตอนนี้',
+        confirmButtonText: '<i class="fas fa-plus-circle"></i> เชิญตอนนี้',
         cancelButtonText: 'ยกเลิก',
         confirmButtonColor: '#00ffa3',
-        background: '#001a10',
-        color: '#d4f1e4'
+        cancelButtonColor: '#555',
+        background: '#0a0e0d',
+        color: '#ffffff'
       }).then((result) => {
         if (result.isConfirmed) {
           window.open(
@@ -228,215 +1098,330 @@
     }
 
     function showCommandInfo(command) {
-      const messages = {
-        '/ban':'แบนสมาชิกออกจากเซิร์ฟเวอร์ทันที',
-        '/kick':'เตะสมาชิกออกจากเซิร์ฟเวอร์ แต่สามารถเข้ากลับได้',
-        '/clear':'ลบข้อความจากห้อง (สูงสุด 100 ข้อความ)',
-        '/help':'ดูรายการคำสั่งทั้งหมดของบอท',
-        '/addrole':'ให้ยศสมาชิกตามที่กำหนด',
-        '/setupdatechannel':'ตั้งค่าห้องแจ้งเตือนเวลาบอทอัพเดท',
-        '/reportbug':'แจ้งบัคหรือปัญหาเกี่ยวกับบอท',
-        '/suggest':'เสนอระบบใหม่หรือแนะนำเพิ่มเติม',
-        '/announceall':'แจ้งอัพเดทบอท (เจ้าของบอทเท่านั้น)',
-        '/guilds':'ดูรายชื่อเซิร์ฟเวอร์และ ID (เจ้าของบอทเท่านั้น)',
-        '/leaveguild':'ให้บอทออกจากเซิร์ฟเวอร์ตาม ID (เจ้าของบอทเท่านั้น)',
-        '/setverifylog':'ตั้งค่าห้องแจ้งเตือนยืนยันตัวตนสำเร็จ',
-        '/setverifyrole':'ตั้งค่ายศที่จะให้ตอนยืนยันสำเร็จ',
-        '/verify':'สร้างปุ่มยืนยันตัวตน',
-        '/backup':'สำรองข้อมูลห้องและหมวดเซิร์ฟเวอร์',
-        '/restore':'กู้คืนข้อมูลห้องและหมวดเมื่อโดนโจมตี'
+      const commandData = {
+        '/ban': {
+          title: 'แบนสมาชิก',
+          desc: 'แบนสมาชิกออกจากเซิร์ฟเวอร์อย่างถาวร ป้องกันไม่ให้กลับเข้ามาได้',
+          usage: '/ban @สมาชิก [เหตุผล]'
+        },
+        '/kick': {
+          title: 'เตะสมาชิก',
+          desc: 'เตะสมาชิกออกจากเซิร์ฟเวอร์ แต่สามารถเข้ากลับมาได้ในภายหลัง',
+          usage: '/kick @สมาชิก [เหตุผล]'
+        },
+        '/clear': {
+          title: 'ลบข้อความ',
+          desc: 'ลบข้อความในห้องได้สูงสุด 100 ข้อความ เหมาะสำหรับทำความสะอาดห้องแชท',
+          usage: '/clear [จำนวน]'
+        },
+        '/help': {
+          title: 'คำสั่งช่วยเหลือ',
+          desc: 'แสดงรายการคำสั่งทั้งหมดของบอทพร้อมวิธีใช้งาน',
+          usage: '/help'
+        },
+        '/addrole': {
+          title: 'เพิ่มยศ',
+          desc: 'เพิ่มยศให้กับสมาชิกที่ระบุ',
+          usage: '/addrole @สมาชิก @ยศ'
+        },
+        '/setupdatechannel': {
+          title: 'ตั้งค่าห้องอัพเดท',
+          desc: 'กำหนดห้องที่จะรับการแจ้งเตือนเมื่อบอทมีการอัพเดทฟีเจอร์ใหม่',
+          usage: '/setupdatechannel #ห้อง'
+        },
+        '/reportbug': {
+          title: 'แจ้งบัค',
+          desc: 'แจ้งปัญหาหรือบัคที่พบในการใช้งานบอท ทีมพัฒนาจะตรวจสอบและแก้ไข',
+          usage: '/reportbug [รายละเอียด]'
+        },
+        '/suggest': {
+          title: 'เสนอแนะ',
+          desc: 'เสนอไอเดียฟีเจอร์ใหม่หรือการปรับปรุงที่อยากเห็นในบอท',
+          usage: '/suggest [ไอเดีย]'
+        },
+        '/setverifylog': {
+          title: 'ตั้งค่าห้องยืนยัน',
+          desc: 'กำหนดห้องที่จะแสดงประวัติการยืนยันตัวตนของสมาชิก',
+          usage: '/setverifylog #ห้อง'
+        },
+        '/setverifyrole': {
+          title: 'ตั้งค่ายศยืนยัน',
+          desc: 'กำหนดยศที่สมาชิกจะได้รับหลังจากยืนยันตัวตนสำเร็จ',
+          usage: '/setverifyrole @ยศ'
+        },
+        '/verify': {
+          title: 'สร้างปุ่มยืนยัน',
+          desc: 'สร้างปุ่มยืนยันตัวตนในห้องที่ระบุ สมาชิกสามารถกดเพื่อยืนยันตัวตน',
+          usage: '/verify'
+        },
+        '/backup': {
+          title: 'สำรองข้อมูล',
+          desc: 'สำรองข้อมูลห้องและหมวดหมู่ทั้งหมดในเซิร์ฟเวอร์ เพื่อกู้คืนในภายหลัง',
+          usage: '/backup'
+        },
+        '/restore': {
+          title: 'กู้คืนข้อมูล',
+          desc: 'กู้คืนข้อมูลจากไฟล์สำรอง ใช้เมื่อเซิร์ฟเวอร์โดนโจมตีหรือต้องการกู้คืน',
+          usage: '/restore'
+        }
       };
-      Swal.fire({
-        title: `คำสั่ง ${command}`,
-        text: messages[command] || 'ข้อมูลคำสั่งนี้ยังไม่มีรายละเอียด',
-        icon: 'info',
-        confirmButtonText: 'รับทราบ',
-        confirmButtonColor: '#00ffa3',
-        background: '#001a10',
-        color: '#d4f1e4'
-      });
+
+      const data = commandData[command];
+      if (data) {
+        Swal.fire({
+          title: `📌 ${data.title}`,
+          html: `
+            <div style="text-align: left; padding: 1rem;">
+              <p style="margin-bottom: 1rem; font-size: 1.05rem;">
+                ${data.desc}
+              </p>
+              <div style="background: rgba(0, 255, 163, 0.1); padding: 1rem; border-radius: 8px; border-left: 3px solid #00ffa3; margin-top: 1rem;">
+                <strong style="color: #00ffa3;">การใช้งาน:</strong><br>
+                <code style="color: #ffffff;">${data.usage}</code>
+              </div>
+            </div>
+          `,
+          icon: 'info',
+          confirmButtonText: 'รับทราบ',
+          confirmButtonColor: '#00ffa3',
+          background: '#0a0e0d',
+          color: '#ffffff'
+        });
+      }
     }
 
     function showContactInfo() {
       Swal.fire({
-        title: 'เข้าร่วม Discord',
-        html: `<p>คุณสามารถติดต่อทีมพัฒนาหรือขอความช่วยเหลือได้ที่ Discord ของเรา 🌿</p>
-               <a href="https://discord.gg/WGrpq7dj79" target="_blank" style="color:#00ffa3; text-decoration:underline;">เข้าร่วมเซิร์ฟเวอร์</a>`,
+        title: '💬 เข้าร่วม Discord',
+        html: `
+          <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">
+            มีคำถามหรือต้องการความช่วยเหลือ?
+          </p>
+          <p style="color: #b4e4ce; margin-bottom: 1.5rem;">
+            เข้าร่วมเซิร์ฟเวอร์ Discord ของเราเพื่อรับการสนับสนุน
+          </p>
+          <a href="https://discord.gg/WGrpq7dj79" target="_blank" 
+             style="display: inline-block; background: #00ffa3; color: #0a0e0d; padding: 1rem 2rem; border-radius: 50px; font-weight: 700; text-decoration: none;">
+            <i class="fab fa-discord"></i> เข้าร่วมตอนนี้
+          </a>
+        `,
         icon: 'info',
-        confirmButtonText: 'รับทราบ',
-        confirmButtonColor: '#00ffa3',
-        background: '#001a10',
-        color: '#d4f1e4'
+        showConfirmButton: false,
+        background: '#0a0e0d',
+        color: '#ffffff'
       });
     }
+
+    // AI Chat functionality
     async function sendToAI(message) {
-    if (!message.trim()) return;
-    const chatArea = document.getElementById("chatArea");
+      if (!message.trim()) return;
+      
+      const chatArea = document.getElementById("chatArea");
 
-    const userDiv = document.createElement("div");
-    userDiv.textContent = "คุณ: " + message;
-    userDiv.style.color = "#00ffa3";
-    userDiv.style.marginBottom = "0.5rem";
-    chatArea.appendChild(userDiv);
-    chatArea.scrollTop = chatArea.scrollHeight;
-
-    const botDiv = document.createElement("div");
-    botDiv.textContent = "Marijuana AI: กำลังตอบ...";
-    botDiv.style.color = "#d4f1e4";
-    botDiv.style.marginBottom = "0.5rem";
-    chatArea.appendChild(botDiv);
-    chatArea.scrollTop = chatArea.scrollHeight;
-
-    try {
-   
-      const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer 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"
-        },
-        body: JSON.stringify({
-          model: "openai/gpt-4o-mini",
-          messages: [
-            { role: "system", content: "คุณคือ Marijuana AI, AI ช่วยตอบอย่างสุภาพและเป็นมิตร พูดลงท้ายด้วย 'ครับ'" },
-            { role: "user", content: message }
-          ]
-        })
-      });
-
-      const data = await response.json();
-      let answer = "";
-      if (data?.choices?.[0]?.message?.content) {
-        answer = data.choices[0].message.content;
-      } else {
-        answer = "ขอโทษครับ, ไม่สามารถตอบได้ตอนนี้";
-      }
-
-      botDiv.textContent = "Marijuana AI: " + answer;
+      const userMsg = document.createElement("div");
+      userMsg.className = "message user";
+      userMsg.innerHTML = `
+        <div class="message-label">
+          <i class="fas fa-user"></i> คุณ
+        </div>
+        <div>${message}</div>
+      `;
+      chatArea.appendChild(userMsg);
       chatArea.scrollTop = chatArea.scrollHeight;
 
-    } catch (err) {
-      botDiv.textContent = "Marijuana AI: เกิดข้อผิดพลาดในการเชื่อมต่อ AI";
-      console.error(err);
-    }
-  }
-  document.getElementById("sendBtn").addEventListener("click", () => {
-    const messageInput = document.getElementById("userMessage");
-    const message = messageInput.value.trim();
+      const botMsg = document.createElement("div");
+      botMsg.className = "message bot";
+      botMsg.innerHTML = `
+        <div class="message-label">
+          <i class="fas fa-robot"></i> Marijuana AI
+        </div>
+        <div><i class="fas fa-spinner fa-spin"></i> กำลังคิด...</div>
+      `;
+      chatArea.appendChild(botMsg);
+      chatArea.scrollTop = chatArea.scrollHeight;
 
-    if (!message) {
-        Swal.fire({
-            toast: true,
-            position: 'top-end',
-            icon: 'warning',
-            title: 'กรุณาพิมพ์ข้อความก่อนส่งครับ',
-            showConfirmButton: false,
-            timer: 2500,
-            timerProgressBar: true,
-            background: '#ffffff',
-            color: '#000000'
+      try {
+        const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer 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"
+          },
+          body: JSON.stringify({
+            model: "openai/gpt-4o-mini",
+            messages: [
+              { 
+                role: "system", 
+                content: "คุณคือ Marijuana AI ผู้ช่วยที่เป็นมิตรและใจดี ตอบคำถามอย่างสุภาพและให้ข้อมูลที่เป็นประโยชน์ ตอบเป็นภาษาไทยและลงท้ายด้วย 'ครับ' หรือ 'ค่ะ' ตามบริบท" 
+              },
+              { role: "user", content: message }
+            ]
+          })
         });
-        return;
-    }
 
-    messageInput.value = "";
+        const data = await response.json();
+        let answer = "ขอโทษครับ ไม่สามารถตอบได้ในขณะนี้";
+        
+        if (data?.choices?.[0]?.message?.content) {
+          answer = data.choices[0].message.content;
+        }
 
-    Swal.fire({
-        toast: true,
-        position: 'top-end',
-        icon: 'success',
-        title: 'กรอกข้อความสำเร็จ ',
-        showConfirmButton: false,
-        timer: 1500,
-        timerProgressBar: true,
-        background: '#ffffff',
-        color: '#000000'
-    });
+        botMsg.innerHTML = `
+          <div class="message-label">
+            <i class="fas fa-robot"></i> Marijuana AI
+          </div>
+          <div>${answer}</div>
+        `;
+        chatArea.scrollTop = chatArea.scrollHeight;
 
-    setTimeout(() => {
-        Swal.fire({
-            toast: true,
-            position: 'top-end',
-            icon: 'info',
-            title: 'Marijuana AI กำลังตอบ...',
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true,
-            background: '#ffffff',
-            color: '#000000'
-        });
-        sendToAI(message);
-    }, 1600);
-});
-
-  document.getElementById("userMessage").addEventListener("keydown", (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      document.getElementById("sendBtn").click();
-    }
-  });
-    const typingData = [
-  {
-    el: document.getElementById("typeTitle"),
-    text: "บอท Marijuana"
-  },
-  {
-    el: document.getElementById("typeTitle2"),
-    text: "บันทึกข้อมูลห้องและหมวดของคุณเวลาโดนโจมตีและระบบอื่นๆ ด้วย Marijuana"
-  }
-];
-
-    const typeSound = new Audio("https://assets.mixkit.co/sfx/preview/mixkit-old-typewriter-key-press-1112.mp3");
-    typeSound.volume = 0.3;
-    
-    function smoothTyping(el, text, i=0) {
-      if (i <= text.length) {
-        el.innerHTML = text.slice(0, i) + `<span class="cursor">|</span>`;
-    
-        const soundClone = typeSound.cloneNode();
-        soundClone.play().catch(e=>{});
-    
-        setTimeout(() => smoothTyping(el, text, i+1), 120);
-      } else {
-        const cursor = el.querySelector(".cursor");
-        if(cursor) cursor.style.animation = "blink 0.7s infinite";
+      } catch (err) {
+        botMsg.innerHTML = `
+          <div class="message-label">
+            <i class="fas fa-robot"></i> Marijuana AI
+          </div>
+          <div>ขอโทษครับ เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณาลองใหม่อีกครั้ง</div>
+        `;
+        console.error(err);
       }
     }
-    
-    window.addEventListener("click", () => {
-      typingData.forEach(item => smoothTyping(item.el, item.text));
-    }, { once: true });
-  window.addEventListener('load', () => {
-  Swal.fire({
-    title: '🌿 ยินดีต้อนรับสู่ <span style="color:#00ffa3;">Marijuana Bot</span> 💚',
-    html: `
-      <p style="font-size: 1.1rem; color:#b9ffe0;">
-        ขอบคุณที่เข้ามาเยี่ยมชมเว็บไซต์ของเรา<br>
-        ขอให้คุณมีวันที่ผ่อนคลายและสดชื่น 🍃
-      </p>
-    `,
-    imageUrl: 'https://img2.pic.in.th/pic/1000300351.png',
-    imageWidth: 100,
-    imageHeight: 100,
-    imageAlt: 'Marijuana Icon',
-    confirmButtonText: 'เข้าสู่เว็บไซต์ 🌱',
-    confirmButtonColor: '#00ffa3',
-    background: 'linear-gradient(145deg, #001f12, #003d24)',
-    color: '#d4f1e4',
-    backdrop: `
-      rgba(0, 0, 0, 0.85)
-      url("")
-      center top / cover
-      no-repeat
-    `,
-    showClass: {
-      popup: 'animate__animated animate__fadeInDown'
-    },
-    hideClass: {
-      popup: 'animate__animated animate__fadeOutUp'
+
+    document.getElementById("sendBtn").addEventListener("click", () => {
+      const messageInput = document.getElementById("userMessage");
+      const message = messageInput.value.trim();
+
+      if (!message) {
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          icon: 'warning',
+          title: 'กรุณาพิมพ์ข้อความก่อนส่ง',
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true
+        });
+        return;
+      }
+
+      messageInput.value = "";
+      sendToAI(message);
+    });
+
+    document.getElementById("userMessage").addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        document.getElementById("sendBtn").click();
+      }
+    });
+
+    // Welcome message
+    window.addEventListener('load', () => {
+      Swal.fire({
+        title: '🌿 ยินดีต้อนรับสู่ Marijuana Bot',
+        html: `
+          <div style="padding: 1rem;">
+            <p style="font-size: 1.2rem; margin-bottom: 1rem;">
+              บอท Discord ที่มีประสิทธิภาพ
+            </p>
+            <p style="color: #b4e4ce;">
+              พร้อมช่วยให้การจัดการเซิร์ฟเวอร์ของคุณง่ายขึ้น 🚀
+            </p>
+          </div>
+        `,
+        imageUrl: 'https://img2.pic.in.th/pic/1000300351.png',
+        imageWidth: 120,
+        imageHeight: 120,
+        imageAlt: 'Marijuana Bot',
+        confirmButtonText: 'เริ่มต้นใช้งาน',
+        confirmButtonColor: '#00ffa3',
+        background: 'linear-gradient(135deg, #0a0e0d, #003d2a)',
+        color: '#ffffff',
+        backdrop: `rgba(0, 0, 0, 0.9)`,
+        showClass: {
+          popup: 'animate__animated animate__zoomIn'
+        },
+        hideClass: {
+          popup: 'animate__animated animate__zoomOut'
+        }
+      });
+    });
+
+    // Scroll Reveal Animation
+    function revealOnScroll() {
+      const reveals = document.querySelectorAll('.scroll-reveal, .scroll-reveal-left, .scroll-reveal-right, .scroll-reveal-scale, .scroll-reveal-rotate');
+      
+      reveals.forEach(element => {
+        const elementTop = element.getBoundingClientRect().top;
+        const elementVisible = 150;
+        
+        if (elementTop < window.innerHeight - elementVisible) {
+          element.classList.add('active');
+        }
+      });
     }
-  });
-});
+
+    // Call on scroll
+    window.addEventListener('scroll', revealOnScroll);
+    
+    // Call on load
+    window.addEventListener('load', revealOnScroll);
+
+    // Particle effect on scroll
+    let lastScrollY = window.scrollY;
+    let ticking = false;
+
+    function createParticle(x, y) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      particle.style.left = x + 'px';
+      particle.style.top = y + 'px';
+      document.body.appendChild(particle);
+      
+      setTimeout(() => {
+        particle.remove();
+      }, 2000);
+    }
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollDelta = Math.abs(window.scrollY - lastScrollY);
+          
+          if (scrollDelta > 10 && Math.random() > 0.7) {
+            const x = Math.random() * window.innerWidth;
+            const y = window.scrollY + Math.random() * window.innerHeight;
+            createParticle(x, y);
+          }
+          
+          lastScrollY = window.scrollY;
+          ticking = false;
+        });
+        
+        ticking = true;
+      }
+    });
+
+    // Re-trigger animations when switching tabs
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      
+      const targetTab = document.getElementById(tabName);
+      targetTab.classList.add('active');
+      event.currentTarget.classList.add('active');
+
+      // Reset and re-trigger animations for command items in the new tab
+      const commandItems = targetTab.querySelectorAll('.command-item');
+      commandItems.forEach(item => {
+        item.classList.remove('active');
+        setTimeout(() => {
+          item.classList.add('active');
+        }, 50);
+      });
+    }
   </script>
 </body>
 </html>
